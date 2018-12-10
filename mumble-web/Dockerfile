@@ -1,10 +1,10 @@
 FROM ubuntu:14.04
 
 RUN apt-get update && apt-get install -y \
+    git \
     python-zeroc-ice \
     python-imaging \
     python-simplejson \
-    mercurial \
     python-pil \
     build-essential \
     python-dev \
@@ -12,7 +12,6 @@ RUN apt-get update && apt-get install -y \
     libpng3 \
     libfreetype6-dev \
     libbz2-dev \
-    mumble-django \
     python-pip \
     openssl \
     libffi-dev \
@@ -24,7 +23,8 @@ RUN apt-get update && apt-get install -y \
     apache2 \
  && rm -rf /var/lib/apt/lists/*
 
-RUN pip install setuptools Pillow zeroc-ice
+RUN pip install setuptools Pillow zeroc-ice Django==1.7.11
+RUN git clone https://github.com/klemorali/mumble-django /usr/share/mumble-django && chown www-data: /usr/share/mumble-django
 RUN apt-get update && apt-get install -y openssh-server
 RUN mkdir -p /var/run/sshd
-#CMD /usr/sbin/sshd -D
+CMD /usr/sbin/sshd -D
